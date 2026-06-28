@@ -2,7 +2,7 @@
 const DashboardPage = () => {
   
   return (
-    <h1>Dashboard</h1>
+    <h1 className="dark:text-white">Dashboard</h1>
   )
 }
 export default DashboardPage

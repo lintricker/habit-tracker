@@ -2,7 +2,7 @@
 const SettingsPage = () => {
   
   return (
-    <h1>Settings</h1>
+    <h1 className="dark:text-white">Settings</h1>
   )
 }
 export default SettingsPage

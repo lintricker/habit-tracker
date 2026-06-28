@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPages'
 import HabitsPage from './pages/HabitsPage'
 import SettingsPage from './pages/SettingsPage'
+import Layout from './components/Layout'
 
 
 const App = () => {
@@ -21,18 +22,17 @@ const App = () => {
     }
   }, [theme])
 
-  return (
-    <div className="bg-white dark:bg-zinc-800 grid place-items-center h-screen w-full">
-      <ThemeToggle />
+  return (    
       <BrowserRouter>
         <Routes>
-          <Route path="login" element={<LoginPage />} />
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="habits" element={<HabitsPage />} />
-          <Route path="settings" element={<SettingsPage />} />
+          <Route element={<Layout />}>
+            <Route path="login" element={<LoginPage />} />
+            <Route index element={<DashboardPage />} />
+            <Route path="habits" element={<HabitsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>  
         </Routes>
     </BrowserRouter>
-    </div> 
   )
 }
 

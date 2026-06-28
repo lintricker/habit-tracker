@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { ThemeToggle } from './components/ThemeToggle'
 
 import useThemeStore from './stores/useThemeStore'
 import { useEffect } from 'react'

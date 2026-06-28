@@ -6,7 +6,7 @@ interface HabitCardProps {
     completed: boolean
 }
 
-const StatCard = ({ key, name, text, icon, completed }: HabitCardProps) => {
+const StatCard = ({ name, text, icon, completed }: HabitCardProps) => {
   return (
     <div className={`bg-white dark:bg-zinc-800 rounded-xl p-5 
                      border-2 transition-all duration-200 cursor-pointer

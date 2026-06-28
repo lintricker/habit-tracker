@@ -7,7 +7,7 @@ interface StatCardProps {
 const StatCard = ({ label, value, icon }: StatCardProps) => {
   return (
     <div className="relative overflow-hidden rounded-xl m-2 p-6 
-                    bg-gradient-to-br from-blue-400 to-blue-700 
+                    bg-linear-to-br from-blue-400 to-blue-700 
                     dark:from-blue-500 dark:to-blue-800
                     text-white shadow-lg hover:shadow-xl 
                     transition-all duration-300 hover:-translate-y-1">

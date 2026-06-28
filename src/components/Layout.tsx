@@ -5,9 +5,9 @@ import { PiSignOutThin } from "react-icons/pi";
 
 const Layout = () => {
     return (
-    <div className="min-h-screen bg-white dark:bg-zinc-900">
+    <div className="min-h-screen bg-white dark:bg-zinc-900 text-zinc-900">
       {/* Шапка */}
-      <header className="border-b border-gray-200 dark:border-gray-700">
+      <header className="border-b border-zinc-300 dark:border-gray-700">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <Link to="/" className="dark:text-white"><h1 className="text-xl font-bold dark:text-white">Habit Tracker</h1></Link>
           <nav className="flex gap-4 items-center">        

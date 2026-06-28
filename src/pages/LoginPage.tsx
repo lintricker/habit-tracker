@@ -3,7 +3,7 @@ const LoginPage = () => {
   
   return (
     <div className="bg-white flex flex-col dark:bg-zinc-900 max-w-md mx-auto">
-      <h1 className="dark:text-white m-2 font-bold">Login page</h1>
+      <h1 className="dark:text-white m-2 font-bold text-3xl self-center">Login page</h1>
       <div className="flex flex-col gap-4">
         <label htmlFor="email" className="dark:text-white text-sm font-medium">
           Email

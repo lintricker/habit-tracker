@@ -1,8 +1,13 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { ThemeToggle } from './components/ThemeToggle'
 
 import useThemeStore from './stores/useThemeStore'
 import { useEffect } from 'react'
+import LoginPage from './pages/LoginPage'
+import DashboardPage from './pages/DashboardPages'
+import HabitsPage from './pages/HabitsPage'
+import SettingsPage from './pages/SettingsPage'
+import Layout from './components/Layout'
 
 
 const App = () => {
@@ -16,10 +21,17 @@ const App = () => {
     }
   }, [theme])
 
-  return (
-    <div className="bg-white dark:bg-zinc-800 grid place-items-center h-screen w-full">
-      <ThemeToggle />
-    </div> 
+  return (    
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="login" element={<LoginPage />} />
+            <Route index element={<DashboardPage />} />
+            <Route path="habits" element={<HabitsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>  
+        </Routes>
+    </BrowserRouter>
   )
 }
 

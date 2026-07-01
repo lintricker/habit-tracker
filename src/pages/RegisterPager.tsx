@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom"
 
-const LoginPage = () => {
+const RegisterPage = () => {
   
   return (
     <div className="bg-white flex flex-col dark:bg-zinc-900 max-w-md mx-auto">
@@ -16,6 +15,16 @@ const LoginPage = () => {
         />
       </div>
       <div className="flex flex-col gap-4">
+        <label htmlFor="username" className="dark:text-white text-sm font-medium">
+          Username
+        </label>
+        <input
+          id="username"
+          type="text"
+          className="border p-2 rounded-lg border-zinc-900 dark:text-white dark:border-white"
+        />
+      </div>
+      <div className="flex flex-col gap-4">
         <label htmlFor="password" className="dark:text-white text-sm font-medium">
           Password
         </label>
@@ -24,10 +33,9 @@ const LoginPage = () => {
           type="password" 
           className="border p-2 rounded-lg border-zinc-900 dark:text-white dark:border-white" />
       </div>
-      <button className="bg-zinc-900 dark:bg-blue-500 m-6 pr-4 pl-4 p-2 rounded-lg text-white">Sign in</button>
-      <p>Not registered yet? <Link to="/register">Create account</Link></p>
+      <button className="bg-zinc-900 dark:bg-blue-500 m-6 pr-4 pl-4 p-2 rounded-lg text-white">Create account</button>
     </div>
     
   )
 }
-export default LoginPage
+export default RegisterPage

@@ -8,6 +8,7 @@ import DashboardPage from './pages/DashboardPages'
 import HabitsPage from './pages/HabitsPage'
 import SettingsPage from './pages/SettingsPage'
 import Layout from './components/Layout'
+import RegisterPage from './pages/RegisterPager'
 
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
             <Route index element={<DashboardPage />} />
             <Route path="habits" element={<HabitsPage />} />
             <Route path="settings" element={<SettingsPage />} />
+            <Route path="register" element={<RegisterPage />} />
           </Route>  
         </Routes>
     </BrowserRouter>

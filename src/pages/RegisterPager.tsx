@@ -108,14 +108,14 @@ const RegisterPage = () => {
           className="bg-blue-500 hover:bg-blue-600 text-white font-medium 
                      py-2 px-4 rounded-lg transition-colors"
         >
-          Зарегистрироваться
+          Create account
         </button>
       </form>
 
       <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-        Уже есть аккаунт?{' '}
+        Have account?{' '}
         <Link to="/login" className="text-blue-500 hover:underline">
-          Войти
+          Sign in
         </Link>
       </p>
     </div>

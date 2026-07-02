@@ -5,8 +5,8 @@ const HabitsPage = () => {
     { id: 1, name: 'Drink water', text: '2l every day', icon: '💧', completed: true },
     { id: 2, name: 'Read', text: '100 pages every day', icon: '📚', completed: false },
     { id: 3, name: 'Running', text: '30 mins in the morning', icon: '🏃', completed: false },
-    { id: 3, name: 'Gym', text: 'abs', icon: '🏃', completed: false },
-    { id: 1, name: 'Swimming', text: 'Swim at Tuesday in the evening', icon: '💧', completed: true },
+    { id: 4, name: 'Gym', text: 'abs', icon: '🏃', completed: false },
+    { id: 5, name: 'Swimming', text: 'Swim at Tuesday in the evening', icon: '💧', completed: true },
   ]
   let currDate = new Date()
   

@@ -6,7 +6,7 @@ import { CgProfile } from "react-icons/cg";
 
 
 const Layout = () => {
-   const { username, loading, logout } = useAuth()
+  const { username, loading, logout } = useAuth()
   const navigate = useNavigate()
 
   if (loading) {

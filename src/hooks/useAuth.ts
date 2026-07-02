@@ -4,6 +4,7 @@ import type { User } from '@supabase/supabase-js'
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null)
+  const [email, setEmail] = useState<string | null>(null)
   const [username, setUsername] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -15,10 +16,10 @@ export const useAuth = () => {
       if (user) {
         const { data: profile } = await supabase
           .from('profiles')
-          .select('username')
+          .select('email, username')
           .eq('id', user.id)
           .single()
-        
+        setEmail(profile?.email ?? null)
         setUsername(profile?.username ?? null)
       }
       
@@ -57,5 +58,5 @@ export const useAuth = () => {
     return { error }
   }
 
-  return { user, username, loading, logout }
+  return { user, email, username, loading, logout }
 }

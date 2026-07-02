@@ -4,64 +4,58 @@ import type { User } from '@supabase/supabase-js'
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null)
+  const [username, setUsername] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // 1. Получаем текущего пользователя при монтировании
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
+      
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('username')
+          .eq('id', user.id)
+          .single()
+        
+        setUsername(profile?.username ?? null)
+      }
+      
       setLoading(false)
     }
     getUser()
 
-    // 2. Подписываемся на изменения auth-состояния
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+    async (event, session) => {
+        // Обновляем только при значимых событиях
+        if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
         setUser(session?.user ?? null)
-      }
+        
+        if (session?.user) {
+            const { data: profile } = await supabase
+            .from('profiles')
+            .select('username')
+            .eq('id', session.user.id)
+            .single()
+            
+            setUsername(profile?.username ?? null)
+        } else {
+            setUsername(null)
+        }
+        }
+    }
     )
 
-    // 3. Отписываемся при размонтировании
     return () => subscription.unsubscribe()
   }, [])
 
-  const login = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    
-    // Обновляем user вручную (на всякий случай)
-    if (data.user) setUser(data.user)
-    
-    return { data, error }
-  }
-
   const logout = async () => {
     const { error } = await supabase.auth.signOut()
-    setUser(null)  // Очищаем сразу
+    setUser(null)
+    setUsername(null)
     return { error }
   }
 
-  const register = async (email: string, password: string, username: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
-    
-    if (data.user) {
-      const { error: profileError } = await supabase.from('profiles').insert([
-        { id: data.user.id, username }
-      ])
-      
-      if (profileError) {
-        return { data, error: profileError }
-      }
-    }
-    
-    return { data, error }
-  }
-
-  return { user, loading, login, logout, register }
+  return { user, username, loading, logout }
 }

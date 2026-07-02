@@ -9,7 +9,7 @@ import HabitsPage from './pages/HabitsPage'
 import SettingsPage from './pages/SettingsPage'
 import Layout from './components/Layout'
 import RegisterPage from './pages/RegisterPager'
-import ProtectedRoute from './components/ProtectedToute'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 const App = () => {

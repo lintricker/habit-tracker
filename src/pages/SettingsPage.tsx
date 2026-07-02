@@ -13,11 +13,11 @@ const SettingsPage = () => {
         <p className="text-xl font-semibold">Профиль</p>
         <div className="grid grid-cols-[auto_1fr] gap-3 items-center">
           <label htmlFor="name" className="mr-3 min-w-20">Name</label>
-          <input id="name" type="text" className="border rounded-lg p-3 max-h-8 w-xs text-zinc-500 dark:text-white" value="Alina Ishemgulova"/>
+          <input id="name" type="text" className="border rounded-lg p-3 max-h-8 w-xs text-zinc-500 dark:text-white" defaultValue="Alina Ishemgulova"/>
         </div>
         <div className="grid grid-cols-[auto_1fr] gap-3 items-center">
           <label htmlFor="email"  className="mr-3 min-w-20">Email</label>
-          <input id="name" type="text" className="border rounded-lg p-3 max-h-8 w-xs text-zinc-500 dark:text-white" value="ishemgulova01@gmail.com"/>
+          <input id="name" type="text" className="border rounded-lg p-3 max-h-8 w-xs text-zinc-500 dark:text-white" defaultValue="ishemgulova01@gmail.com"/>
         </div>        
       </div>
       <div className="flex flex-col gap-4 max-w-lg">

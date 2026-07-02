@@ -2,13 +2,13 @@ import { Link, Outlet, useNavigate } from "react-router-dom"
 import { ThemeToggle } from "./ThemeToggle"
 import { PiSignOutThin } from "react-icons/pi";
 import { useAuth } from "../hooks/useAuth";
+import { CgProfile } from "react-icons/cg";
 
 
 const Layout = () => {
-   const { loading, logout } = useAuth()  // ← используем хук
+   const { username, loading, logout } = useAuth()
   const navigate = useNavigate()
 
-  // Показываем загрузку, пока проверяем сессию
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center dark:text-white">
@@ -16,11 +16,12 @@ const Layout = () => {
       </div>
     )
   }
-  const handleLogout = async () => {
-    console.log("Logout clicked")  // ← для отладки
+
+   const handleLogout = async () => {
     await logout()
     navigate('/login')
   }
+
     return (
     <div className="min-h-screen bg-white dark:bg-zinc-900 text-zinc-900">
       {}
@@ -38,6 +39,14 @@ const Layout = () => {
               <PiSignOutThin size={20} />
             </button>
             <ThemeToggle />
+            {username && (
+              <div className="flex items-start dark:text-white gap-3">
+              <CgProfile size={20}/>
+              <span className="dark:text-white text-sm">
+                Hi, {username}! 👋
+              </span>
+            </div>
+            )}
           </nav>
         </div>
       </header>

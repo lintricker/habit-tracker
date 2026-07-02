@@ -9,6 +9,7 @@ import HabitsPage from './pages/HabitsPage'
 import SettingsPage from './pages/SettingsPage'
 import Layout from './components/Layout'
 import RegisterPage from './pages/RegisterPager'
+import ProtectedRoute from './components/ProtectedToute'
 
 
 const App = () => {
@@ -27,9 +28,9 @@ const App = () => {
         <Routes>
           <Route element={<Layout />}>
             <Route path="login" element={<LoginPage />} />
-            <Route index element={<DashboardPage />} />
-            <Route path="habits" element={<HabitsPage />} />
-            <Route path="settings" element={<SettingsPage />} />
+            <Route index element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+            <Route path="habits" element={<ProtectedRoute><HabitsPage /></ProtectedRoute>} />
+            <Route path="settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
             <Route path="register" element={<RegisterPage />} />
           </Route>  
         </Routes>

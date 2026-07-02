@@ -1,22 +1,24 @@
 import { Link, Outlet, useNavigate } from "react-router-dom"
 import { ThemeToggle } from "./ThemeToggle"
 import { PiSignOutThin } from "react-icons/pi";
-import { supabase } from "../lib/supabase";
-import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 
 const Layout = () => {
+   const { loading, logout } = useAuth()  // ← используем хук
   const navigate = useNavigate()
 
+  // Показываем загрузку, пока проверяем сессию
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center dark:text-white">
+        Загрузка...
+      </div>
+    )
+  }
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut()
-
-    if (error) {
-      alert(error.message)
-      return
-    }
-    
-    console.log("Signed out")
+    console.log("Logout clicked")  // ← для отладки
+    await logout()
     navigate('/login')
   }
     return (

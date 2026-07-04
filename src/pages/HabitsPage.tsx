@@ -1,38 +1,54 @@
+import { useEffect, useState } from "react"
 import HabitCard from "../components/HabitCard"
+import { useAuth } from "../hooks/useAuth"
+import { getHabits } from "../api/habits"
+import type { Habit } from "../interfaces/HabitModel"
 
 const HabitsPage = () => {
-  const habits = [
-    { id: 1, name: 'Drink water', text: '2l every day', icon: '💧', completed: true },
-    { id: 2, name: 'Read', text: '100 pages every day', icon: '📚', completed: false },
-    { id: 3, name: 'Running', text: '30 mins in the morning', icon: '🏃', completed: false },
-    { id: 4, name: 'Gym', text: 'abs', icon: '🏃', completed: false },
-    { id: 5, name: 'Swimming', text: 'Swim at Tuesday in the evening', icon: '💧', completed: true },
-  ]
-  let currDate = new Date()
-  
+  const [habits, setHabits] = useState<Habit[]>([])
+  const { user } = useAuth()
+  const currDate = new Date() 
+
+  useEffect(() => {
+    console.log("rerender")
+    if (user) {
+      getHabits(user.id).then(({ data }) => {
+        setHabits(data || [])
+      })
+    }
+  }, [user])
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold dark:text-white">{currDate.toLocaleDateString()}</h1>
-          <p>Mark completed today</p>
+          <h1 className="text-2xl font-bold dark:text-white">
+            {currDate.toLocaleDateString('ru-RU', { 
+              weekday: 'long', 
+              day: 'numeric', 
+              month: 'long' 
+            })}
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">Mark completed today</p>
         </div>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
-            Add habit
-          </button>
+        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+          Add habit
+        </button>
       </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {habits.map((habit) => (
           <HabitCard 
-            key={habit.id} // Обязательно нужен уникальный key!
+            key={habit.id}
             name={habit.name} 
-            text={habit.text}
-            icon={habit.icon}
-            completed={habit.completed}
+            text={habit.description ?? ''}  // ✅ description вместо text
+            icon={habit.icon ?? ''}
+            completed={habit.completed}  // ✅ работает, если добавили в getHabits
           />
         ))}
       </div>
     </div>
   )
 }
+
 export default HabitsPage

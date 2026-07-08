@@ -36,16 +36,20 @@ export const useHabitActions = () => {
     }
   }
 
-  const createHabit = async (habit: Habit) => {
-    const { error } = await supabase
+  const createHabit = async (name: string, description: string, icon: string) => {
+    if (!user) return { data: null, error: new Error('Not authenticated') }
+
+    const { data, error } = await supabase
     .from('habits')
     .insert({
-      user_id: user?.id, 
-      name: habit.name,
-      description: habit.description,
-      icon: habit.icon,
-      created_at: habit.created_at
+      user_id: user.id, 
+      name,
+      description,
+      icon,
     })
+    .select()
+    .single()
+    return { data, error }
   }
 
   const updateHabit = async (habitId: number, updates: any) => {
@@ -69,5 +73,5 @@ export const useHabitActions = () => {
     return { error }
   }
 
-  return { toggleHabit, updateHabit, deleteHabit }
+  return { toggleHabit, createHabit, updateHabit, deleteHabit }
 }

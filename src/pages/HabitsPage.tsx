@@ -3,17 +3,29 @@ import HabitCard from '../components/HabitCard'
 import EditHabitModal from '../components/EditHabitModal'
 import { useHabits } from '../hooks/useHabit'
 import { useHabitActions } from '../hooks/useHabitActions'
+import CreateHabitModal from '../components/CreateHabitModal'
 
 const HabitsPage = () => {
   const { habits, loading, error, refetch } = useHabits()
-  const { toggleHabit, updateHabit, deleteHabit } = useHabitActions()
+  const { createHabit, toggleHabit, updateHabit, deleteHabit } = useHabitActions()
   
   // Состояние для модалки
   const [editingHabitId, setEditingHabitId] = useState<number | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
 
   const handleToggle = async (habitId: number, currentStatus: boolean) => {
     await toggleHabit(habitId, currentStatus)
+    await refetch()
+  }
+
+  const handleCreate = async (name: string, description: string, icon: string) => {
+    const { error } = await createHabit(name, description, icon)
+    if (error) {
+      alert('Не удалось создать привычку: ' + error.message)
+      return
+    }
+    setIsCreateModalOpen(false)
     await refetch()
   }
 
@@ -61,7 +73,9 @@ const HabitsPage = () => {
           </h1>
           <p className="text-gray-600 dark:text-gray-400">Mark completed today</p>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+        <button 
+          onClick={() => setIsCreateModalOpen(true)}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
           Add habit
         </button>
       </div>
@@ -80,6 +94,13 @@ const HabitsPage = () => {
           />
         ))}
       </div>
+      
+       {/* Модалка создания */}
+      <CreateHabitModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onCreate={handleCreate}
+      />
 
       {/* Модалка редактирования */}
       <EditHabitModal

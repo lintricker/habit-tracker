@@ -10,6 +10,7 @@ import SettingsPage from './pages/SettingsPage'
 import Layout from './components/Layout'
 import RegisterPage from './pages/RegisterPager'
 import ProtectedRoute from './components/ProtectedRoute'
+import { AuthProvider } from './contexts/AuthContext'
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
 
   return (    
       <BrowserRouter>
+      <AuthProvider>
         <Routes>
           <Route element={<Layout />}>
             <Route path="login" element={<LoginPage />} />
@@ -34,6 +36,7 @@ const App = () => {
             <Route path="register" element={<RegisterPage />} />
           </Route>  
         </Routes>
+       </AuthProvider> 
     </BrowserRouter>
   )
 }

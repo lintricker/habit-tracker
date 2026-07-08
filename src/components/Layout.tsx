@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from "react-router-dom"
 import { ThemeToggle } from "./ThemeToggle"
 import { PiSignOutThin } from "react-icons/pi";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from '../contexts/AuthContext'
 import { CgProfile } from "react-icons/cg";
 
 

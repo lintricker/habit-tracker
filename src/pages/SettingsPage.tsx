@@ -1,6 +1,6 @@
 import { ThemeToggle } from "../components/ThemeToggle"
 import { PiSignOut } from "react-icons/pi";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
 
 

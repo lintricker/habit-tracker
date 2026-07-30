@@ -2,16 +2,35 @@ import { ThemeToggle } from "../components/ThemeToggle"
 import { PiSignOut } from "react-icons/pi";
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
+import { MdOutlineEdit } from "react-icons/md";
+import { useSettingsActions } from '../hooks/useSettingsActions'
+import { useEffect, useState } from "react";
 
 
 const SettingsPage = () => {
   const { email, username, logout } = useAuth()
-    const navigate = useNavigate()
-   
-    const handleLogout = async () => {
-    await logout()
-    navigate('/login')
+  const [text, setText] = useState('');
+  const {updateUsername} = useSettingsActions()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (username) {
+      setText(username)
     }
+  }, [username])
+
+  const handleLogout = async () => {
+  await logout()
+  navigate('/login')
+  }
+
+  const handleUpdateUserName = async () => {
+
+    await updateUsername(text);
+  }
+
+  
   return (
     <div className="dark:text-white">
       <div className="flex justify-between items-center mb-6">
@@ -21,7 +40,16 @@ const SettingsPage = () => {
         <p className="text-xl font-semibold">Профиль</p>
         <div className="grid grid-cols-[auto_1fr] gap-3 items-center">
           <label htmlFor="name" className="mr-3 min-w-20">Name</label>
-          <input id="name" type="text"  value={username?.toString()} className="border rounded-lg p-3 w-full text-zinc-500 dark:text-white" readOnly/>
+          <div className="flex flex-row gap-3">
+            <input id="name" type="text"  value={text} className="border rounded-lg p-3 w-full text-zinc-500 dark:text-white" onChange={(e) => setText(e.target.value)}/>
+            <button
+              onClick={handleUpdateUserName}
+              className="dark:text-white hover:text-blue-500 transition-colors"
+              title="Sign out"
+            >
+              <MdOutlineEdit size={20} />
+            </button>
+          </div>
         </div>
         <div className="grid grid-cols-[auto_1fr] gap-3 items-center">
           <label htmlFor="email"  className="mr-3 min-w-20">Email</label>

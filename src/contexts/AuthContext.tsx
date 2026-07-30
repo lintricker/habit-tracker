@@ -1,18 +1,17 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import type { ReactNode } from 'react'
 import { supabase } from '../lib/supabase'
 import type { User } from '@supabase/supabase-js'
 
-// Типы выносим отдельно
 type AuthContextType = {
   user: User | null
   email: string | null
   username: string | null
   loading: boolean
   logout: () => Promise<void>
+  refetch: () => Promise<void>  // ← добавили
 }
 
-// Создаём контекст с undefined по умолчанию
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 type AuthProviderProps = {
@@ -25,36 +24,43 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [username, setUsername] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
-      setEmail(user?.email ?? null)
-      if (user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('username')
-          .eq('id', user.id)
-          .single()
-        setUsername(profile?.username ?? null)
-      }
+  // Вынесли логику загрузки в отдельную функцию
+  const refetch = useCallback(async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    setUser(user)
+    setEmail(user?.email ?? null)
+    
+    if (user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', user.id)
+        .single()
       
-      setLoading(false)
+      setUsername(profile?.username ?? null)
+    } else {
+      setEmail(null)
+      setUsername(null)
     }
     
-    getUser()
+    setLoading(false)
+  }, [])
+
+  useEffect(() => {
+    refetch()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'INITIAL_SESSION') {
           setUser(session?.user ?? null)
-          setEmail(session?.user?.email ?? null)
+          setEmail(session?.user?.email ?? null)          
           if (session?.user) {
             const { data: profile } = await supabase
               .from('profiles')
               .select('username')
               .eq('id', session.user.id)
               .single()
+            
             setUsername(profile?.username ?? null)
           } else {
             setEmail(null)
@@ -67,7 +73,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     )
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [refetch])
 
   const logout = async () => {
     await supabase.auth.signOut()
@@ -77,7 +83,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, email, username, loading, logout }}>
+    <AuthContext.Provider value={{ user, email, username, loading, logout, refetch }}>
       {children}
     </AuthContext.Provider>
   )

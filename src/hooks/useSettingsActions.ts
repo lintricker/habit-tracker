@@ -15,6 +15,9 @@ export const useSettingsActions = () => {
   }
   
   const updateEmail = async (newEmail: string) => {
+    const {data, error} = await supabase.auth.updateUser({email: newEmail})
+    if (error) throw error
+    return { data, error }
   }
   
   const updatePassword = async (currentPassword: string, newPassword: string) => {

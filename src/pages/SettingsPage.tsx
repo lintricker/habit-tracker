@@ -9,16 +9,26 @@ import { useEffect, useState } from "react";
 
 const SettingsPage = () => {
   const { email, username, logout } = useAuth()
-  const [text, setText] = useState('');
-  const {updateUsername} = useSettingsActions()
+  const [newUsername, setNewUsername] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const {updateUsername,updateEmail} = useSettingsActions()
 
   const navigate = useNavigate()
 
   useEffect(() => {
     if (username) {
-      setText(username)
+      setNewUsername(username)
     }
-  }, [username])
+    if (newEmail) {
+      setNewEmail(newEmail)
+    }
+  }, [username, newEmail])
+
+  /*useEffect(() => {
+    if (email){
+      setNewUsername(email)
+    }
+  }, [email])*/
 
   const handleLogout = async () => {
   await logout()
@@ -26,10 +36,12 @@ const SettingsPage = () => {
   }
 
   const handleUpdateUserName = async () => {
-
-    await updateUsername(text);
+    await updateUsername(newUsername);
   }
 
+  const handleUpdateEmail = async () => {
+    await updateEmail(newEmail);
+  }
   
   return (
     <div className="dark:text-white">
@@ -41,7 +53,7 @@ const SettingsPage = () => {
         <div className="grid grid-cols-[auto_1fr] gap-3 items-center">
           <label htmlFor="name" className="mr-3 min-w-20">Name</label>
           <div className="flex flex-row gap-3">
-            <input id="name" type="text"  value={text} className="border rounded-lg p-3 w-full text-zinc-500 dark:text-white" onChange={(e) => setText(e.target.value)}/>
+            <input id="name" type="text"  value={newUsername} className="border rounded-lg p-3 w-full text-zinc-500 dark:text-white" onChange={(e) => setNewUsername(e.target.value)}/>
             <button
               onClick={handleUpdateUserName}
               className="dark:text-white hover:text-blue-500 transition-colors"
@@ -53,7 +65,16 @@ const SettingsPage = () => {
         </div>
         <div className="grid grid-cols-[auto_1fr] gap-3 items-center">
           <label htmlFor="email"  className="mr-3 min-w-20">Email</label>
-          <input id="email" type="text" value={email?.toString()} className="border rounded-lg p-3 w-full text-zinc-500 dark:text-white" readOnly/>
+          <div className="flex flex-row gap-3">
+            <input id="email" type="text" value={newEmail} className="border rounded-lg p-3 w-full text-zinc-500 dark:text-white" onChange={(e) => setNewEmail(e.target.value)}/>
+            <button
+              onClick={handleUpdateEmail}
+              className="dark:text-white hover:text-blue-500 transition-colors"
+              title="Sign out"
+            >
+              <MdOutlineEdit size={20} />
+            </button>
+          </div>
         </div>        
       </div>
       <div className="flex flex-col gap-4 max-w-lg">
